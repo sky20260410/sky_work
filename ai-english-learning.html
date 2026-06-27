@@ -78,15 +78,15 @@
         th {
             background: #1a3a5c;
             color: white;
-            padding: 10px 12px;
+            padding: 8px 10px;
             text-align: left;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
         }
         td {
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 13px;
+            font-size: 12px;
             vertical-align: middle;
         }
         tr:last-child td { border-bottom: none; }
@@ -121,7 +121,8 @@
         }
 
         .icon { font-size: 14px; line-height: 1; }
-        .phonetic { color: #888; font-size: 12px; }
+        .spelling { color: #e67e22; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+        .phonetic { color: #888; font-size: 11px; }
         .meaning { color: #444; }
         .example { color: #888; font-size: 12px; font-style: italic; }
 
@@ -154,100 +155,100 @@
 <script>
 const weeks = [
     { title: "Week 1：机器学习基础", words: [
-        { word: "algorithm", phonetic: "/ˈælɡərɪðəm/", meaning: "算法", example: "A neural network is a type of algorithm." },
-        { word: "dataset", phonetic: "/ˈdeɪtəˌset/", meaning: "数据集", example: "The dataset contains 10,000 images." },
-        { word: "training", phonetic: "/ˈtreɪnɪŋ/", meaning: "训练", example: "Training a model requires lots of data." },
-        { word: "inference", phonetic: "/ˈɪnfərəns/", meaning: "推理", example: "The model performs inference in real time." },
-        { word: "label", phonetic: "/ˈleɪbəl/", meaning: "标签", example: "Each image has a corresponding label." },
-        { word: "feature", phonetic: "/ˈfiːtʃər/", meaning: "特征", example: "The network learns to extract features." },
-        { word: "gradient", phonetic: "/ˈɡreɪdiənt/", meaning: "梯度", example: "We use gradient descent to optimize." },
-        { word: "epoch", phonetic: "/ˈiːpɒk/", meaning: "轮次", example: "One epoch means one pass through the data." },
-        { word: "batch", phonetic: "/bætʃ/", meaning: "批次", example: "We process data in batches of 32." },
-        { word: "overfit", phonetic: "/ˌəʊvəˈfɪt/", meaning: "过拟合", example: "The model overfits when it memorizes data." },
+        { word: "algorithm", phonetic: "/ˈælɡərɪðəm/", spelling: "al·go·rithm", meaning: "算法", example: "A neural network is a type of algorithm." },
+        { word: "dataset", phonetic: "/ˈdeɪtəˌset/", spelling: "da·ta·set", meaning: "数据集", example: "The dataset contains 10,000 images." },
+        { word: "training", phonetic: "/ˈtreɪnɪŋ/", spelling: "train·ing", meaning: "训练", example: "Training a model requires lots of data." },
+        { word: "inference", phonetic: "/ˈɪnfərəns/", spelling: "in·fer·ence", meaning: "推理", example: "The model performs inference in real time." },
+        { word: "label", phonetic: "/ˈleɪbəl/", spelling: "la·bel", meaning: "标签", example: "Each image has a corresponding label." },
+        { word: "feature", phonetic: "/ˈfiːtʃər/", spelling: "fea·ture", meaning: "特征", example: "The network learns to extract features." },
+        { word: "gradient", phonetic: "/ˈɡreɪdiənt/", spelling: "gra·di·ent", meaning: "梯度", example: "We use gradient descent to optimize." },
+        { word: "epoch", phonetic: "/ˈiːpɒk/", spelling: "e·poch", meaning: "轮次", example: "One epoch means one pass through the data." },
+        { word: "batch", phonetic: "/bætʃ/", spelling: "batch", meaning: "批次", example: "We process data in batches of 32." },
+        { word: "overfit", phonetic: "/ˌəʊvəˈfɪt/", spelling: "o·ver·fit", meaning: "过拟合", example: "The model overfits when it memorizes data." },
     ]},
     { title: "Week 2：神经网络核心", words: [
-        { word: "neuron", phonetic: "/ˈnjʊərɒn/", meaning: "神经元", example: "A neuron receives inputs and produces output." },
-        { word: "layer", phonetic: "/ˈleɪər/", meaning: "层", example: "The network has three hidden layers." },
-        { word: "weight", phonetic: "/weɪt/", meaning: "权重", example: "Each connection has an associated weight." },
-        { word: "bias", phonetic: "/ˈbaɪəs/", meaning: "偏置", example: "Bias allows the model to shift the activation." },
-        { word: "activation", phonetic: "/ˌæktɪˈveɪʃən/", meaning: "激活函数", example: "ReLU is a popular activation function." },
-        { word: "softmax", phonetic: "/ˈsɒftmæks/", meaning: "Softmax函数", example: "Softmax converts outputs to probabilities." },
-        { word: "embedding", phonetic: "/ɪmˈbedɪŋ/", meaning: "嵌入向量", example: "Word embedding represents words as vectors." },
-        { word: "tensor", phonetic: "/ˈtensər/", meaning: "张量", example: "All data in PyTorch is a tensor." },
-        { word: "dimension", phonetic: "/daɪˈmenʃən/", meaning: "维度", example: "The vector has 512 dimensions." },
-        { word: "architecture", phonetic: "/ˌɑːkɪˈtektʃər/", meaning: "架构", example: "This is a transformer architecture." },
+        { word: "neuron", phonetic: "/ˈnjʊərɒn/", spelling: "neu·ron", meaning: "神经元", example: "A neuron receives inputs and produces output." },
+        { word: "layer", phonetic: "/ˈleɪər/", spelling: "lay·er", meaning: "层", example: "The network has three hidden layers." },
+        { word: "weight", phonetic: "/weɪt/", spelling: "weight", meaning: "权重", example: "Each connection has an associated weight." },
+        { word: "bias", phonetic: "/ˈbaɪəs/", spelling: "bi·as", meaning: "偏置", example: "Bias allows the model to shift the activation." },
+        { word: "activation", phonetic: "/ˌæktɪˈveɪʃən/", spelling: "ac·ti·va·tion", meaning: "激活函数", example: "ReLU is a popular activation function." },
+        { word: "softmax", phonetic: "/ˈsɒftmæks/", spelling: "soft·max", meaning: "Softmax函数", example: "Softmax converts outputs to probabilities." },
+        { word: "embedding", phonetic: "/ɪmˈbedɪŋ/", spelling: "em·bed·ding", meaning: "嵌入向量", example: "Word embedding represents words as vectors." },
+        { word: "tensor", phonetic: "/ˈtensər/", spelling: "ten·sor", meaning: "张量", example: "All data in PyTorch is a tensor." },
+        { word: "dimension", phonetic: "/daɪˈmenʃən/", spelling: "di·men·sion", meaning: "维度", example: "The vector has 512 dimensions." },
+        { word: "architecture", phonetic: "/ˌɑːkɪˈtektʃər/", spelling: "ar·chi·tec·ture", meaning: "架构", example: "This is a transformer architecture." },
     ]},
     { title: "Week 3：深度学习模型", words: [
-        { word: "convolutional", phonetic: "/ˌkɒnvəˈluːʃənəl/", meaning: "卷积的", example: "Convolutional layers extract spatial features." },
-        { word: "recurrent", phonetic: "/rɪˈkʌrənt/", meaning: "循环的", example: "Recurrent networks process sequential data." },
-        { word: "transformer", phonetic: "/trænsˈfɔːmər/", meaning: "Transformer模型", example: "The transformer revolutionized NLP." },
-        { word: "attention", phonetic: "/əˈtenʃən/", meaning: "注意力机制", example: "Attention lets the model focus on key parts." },
-        { word: "self-attention", phonetic: "/self əˈtenʃən/", meaning: "自注意力", example: "Self-attention computes relationships within a sequence." },
-        { word: "encoder", phonetic: "/ɪnˈkəʊdər/", meaning: "编码器", example: "The encoder processes the input sequence." },
-        { word: "decoder", phonetic: "/dɪˈkəʊdər/", meaning: "解码器", example: "The decoder generates the output." },
-        { word: "pre-train", phonetic: "/priːˈtreɪn/", meaning: "预训练", example: "We pre-train the model on large data." },
-        { word: "fine-tune", phonetic: "/faɪn tjuːn/", meaning: "微调", example: "We fine-tune the model on our specific task." },
-        { word: "scaling", phonetic: "/ˈskeɪlɪŋ/", meaning: "规模化", example: "Scaling laws describe compute trends." },
+        { word: "convolutional", phonetic: "/ˌkɒnvəˈluːʃənəl/", spelling: "con·vo·lu·tion·al", meaning: "卷积的", example: "Convolutional layers extract spatial features." },
+        { word: "recurrent", phonetic: "/rɪˈkʌrənt/", spelling: "re·cur·rent", meaning: "循环的", example: "Recurrent networks process sequential data." },
+        { word: "transformer", phonetic: "/trænsˈfɔːmər/", spelling: "trans·form·er", meaning: "Transformer模型", example: "The transformer revolutionized NLP." },
+        { word: "attention", phonetic: "/əˈtenʃən/", spelling: "at·ten·tion", meaning: "注意力机制", example: "Attention lets the model focus on key parts." },
+        { word: "self-attention", phonetic: "/self əˈtenʃən/", spelling: "self-at·ten·tion", meaning: "自注意力", example: "Self-attention computes relationships within a sequence." },
+        { word: "encoder", phonetic: "/ɪnˈkəʊdər/", spelling: "en·cod·er", meaning: "编码器", example: "The encoder processes the input sequence." },
+        { word: "decoder", phonetic: "/dɪˈkəʊdər/", spelling: "de·cod·er", meaning: "解码器", example: "The decoder generates the output." },
+        { word: "pre-train", phonetic: "/priːˈtreɪn/", spelling: "pre-train", meaning: "预训练", example: "We pre-train the model on large data." },
+        { word: "fine-tune", phonetic: "/faɪn tjuːn/", spelling: "fine-tune", meaning: "微调", example: "We fine-tune the model on our specific task." },
+        { word: "scaling", phonetic: "/ˈskeɪlɪŋ/", spelling: "scal·ing", meaning: "规模化", example: "Scaling laws describe compute trends." },
     ]},
     { title: "Week 4：自然语言处理", words: [
-        { word: "token", phonetic: "/ˈtəʊkən/", meaning: "词元/标记", example: "Each word is converted to a token." },
-        { word: "vocabulary", phonetic: "/vəˈkæbjʊləri/", meaning: "词汇表", example: "The vocabulary size is 50,000." },
-        { word: "tokenization", phonetic: "/ˌtəʊkənaɪˈzeɪʃən/", meaning: "分词", example: "Tokenization splits text into tokens." },
-        { word: "corpus", phonetic: "/ˈkɔːpəs/", meaning: "语料库", example: "The corpus contains millions of sentences." },
-        { word: "sequence", phonetic: "/ˈsiːkwəns/", meaning: "序列", example: "The input is a sequence of tokens." },
-        { word: "context", phonetic: "/ˈkɒntekst/", meaning: "上下文", example: "Context helps disambiguate meaning." },
-        { word: "sentiment", phonetic: "/ˈsentɪmənt/", meaning: "情感", example: "Sentiment analysis classifies opinions." },
-        { word: "generation", phonetic: "/ˌdʒenəˈreɪʃən/", meaning: "生成", example: "Text generation is a key capability." },
-        { word: "prompt", phonetic: "/prɒmpt/", meaning: "提示词", example: "The user provides a prompt to the model." },
-        { word: "retrieval", phonetic: "/rɪˈtraɪvəl/", meaning: "检索", example: "Retrieval augmented generation improves accuracy." },
+        { word: "token", phonetic: "/ˈtəʊkən/", spelling: "to·ken", meaning: "词元/标记", example: "Each word is converted to a token." },
+        { word: "vocabulary", phonetic: "/vəˈkæbjʊləri/", spelling: "vo·cab·u·lar·y", meaning: "词汇表", example: "The vocabulary size is 50,000." },
+        { word: "tokenization", phonetic: "/ˌtəʊkənaɪˈzeɪʃən/", spelling: "to·ken·i·za·tion", meaning: "分词", example: "Tokenization splits text into tokens." },
+        { word: "corpus", phonetic: "/ˈkɔːpəs/", spelling: "cor·pus", meaning: "语料库", example: "The corpus contains millions of sentences." },
+        { word: "sequence", phonetic: "/ˈsiːkwəns/", spelling: "se·quence", meaning: "序列", example: "The input is a sequence of tokens." },
+        { word: "context", phonetic: "/ˈkɒntekst/", spelling: "con·text", meaning: "上下文", example: "Context helps disambiguate meaning." },
+        { word: "sentiment", phonetic: "/ˈsentɪmənt/", spelling: "sen·ti·ment", meaning: "情感", example: "Sentiment analysis classifies opinions." },
+        { word: "generation", phonetic: "/ˌdʒenəˈreɪʃən/", spelling: "gen·er·a·tion", meaning: "生成", example: "Text generation is a key capability." },
+        { word: "prompt", phonetic: "/prɒmpt/", spelling: "prompt", meaning: "提示词", example: "The user provides a prompt to the model." },
+        { word: "retrieval", phonetic: "/rɪˈtraɪvəl/", spelling: "re·tri·val", meaning: "检索", example: "Retrieval augmented generation improves accuracy." },
     ]},
     { title: "Week 5：大语言模型", words: [
-        { word: "reinforcement", phonetic: "/ˌriːɪnˈfɔːsmənt/", meaning: "强化", example: "Reinforcement learning uses rewards." },
-        { word: "prompt engineering", phonetic: "/prɒmpt ˌendʒɪˈnɪərɪŋ/", meaning: "提示工程", example: "Prompt engineering optimizes model inputs." },
-        { word: "hallucination", phonetic: "/həˌluːsɪˈneɪʃən/", meaning: "幻觉（模型杜撰）", example: "The model may produce hallucinations." },
-        { word: "alignment", phonetic: "/əˈlaɪnmənt/", meaning: "对齐", example: "Alignment ensures the model follows human values." },
-        { word: "emergent", phonetic: "/ˈemərdʒənt/", meaning: "涌现的", example: "Creativity is an emergent property." },
-        { word: "chain-of-thought", phonetic: "/tʃeɪn əv θɔːt/", meaning: "思维链", example: "Chain-of-thought prompting improves reasoning." },
-        { word: "instruction tuning", phonetic: "/ɪnˈstrʌkʃən ˈtjuːnɪŋ/", meaning: "指令微调", example: "Instruction tuning improves following ability." },
-        { word: "zero-shot", phonetic: "/ˈzɪərəʊ ʃɒt/", meaning: "零样本", example: "The model does zero-shot classification." },
-        { word: "few-shot", phonetic: "/fjuː ʃɒt/", meaning: "少样本", example: "Few-shot learning needs only a few examples." },
-        { word: "涌现", phonetic: "/ˌɪməˈdʒɜːns/", meaning: "emergence", example: "Complex behaviors emerge from simple rules." },
+        { word: "reinforcement", phonetic: "/ˌriːɪnˈfɔːsmənt/", spelling: "re·in·force·ment", meaning: "强化", example: "Reinforcement learning uses rewards." },
+        { word: "prompt engineering", phonetic: "/prɒmpt ˌendʒɪˈnɪərɪŋ/", spelling: "prompt en·gi·neer·ing", meaning: "提示工程", example: "Prompt engineering optimizes model inputs." },
+        { word: "hallucination", phonetic: "/həˌluːsɪˈneɪʃən/", spelling: "hal·lu·ci·na·tion", meaning: "幻觉（模型杜撰）", example: "The model may produce hallucinations." },
+        { word: "alignment", phonetic: "/əˈlaɪnmənt/", spelling: "a·lign·ment", meaning: "对齐", example: "Alignment ensures the model follows human values." },
+        { word: "emergent", phonetic: "/ˈemərdʒənt/", spelling: "e·mer·gent", meaning: "涌现的", example: "Creativity is an emergent property." },
+        { word: "chain-of-thought", phonetic: "/tʃeɪn əv θɔːt/", spelling: "chain-of-thought", meaning: "思维链", example: "Chain-of-thought prompting improves reasoning." },
+        { word: "instruction tuning", phonetic: "/ɪnˈstrʌkʃən ˈtjuːnɪŋ/", spelling: "in·struc·tion tun·ing", meaning: "指令微调", example: "Instruction tuning improves following ability." },
+        { word: "zero-shot", phonetic: "/ˈzɪərəʊ ʃɒt/", spelling: "ze·ro-shot", meaning: "零样本", example: "The model does zero-shot classification." },
+        { word: "few-shot", phonetic: "/fjuː ʃɒt/", spelling: "few-shot", meaning: "少样本", example: "Few-shot learning needs only a few examples." },
+        { word: "emergence", phonetic: "/ˌɪməˈdʒɜːns/", spelling: "e·mer·gence", meaning: "涌现", example: "Complex behaviors emerge from simple rules." },
     ]},
     { title: "Week 6：训练与优化", words: [
-        { word: "optimizer", phonetic: "/ˈɒptɪmaɪzər/", meaning: "优化器", example: "Adam is a popular optimizer." },
-        { word: "learning rate", phonetic: "/ˈlɜːnɪŋ reɪt/", meaning: "学习率", example: "The learning rate controls step size." },
-        { word: "momentum", phonetic: "/məʊˈmentəm/", meaning: "动量", example: "Momentum accelerates gradient descent." },
-        { word: "regularization", phonetic: "/ˌriːɡjʊləraɪˈzeɪʃən/", meaning: "正则化", example: "Regularization prevents overfitting." },
-        { word: "dropout", phonetic: "/ˈdrɒpˌaʊt/", meaning: "Dropout随机失活", example: "Dropout randomly disables neurons." },
-        { word: "hyperparameter", phonetic: "/ˌhaɪpəpəˈræmɪtər/", meaning: "超参数", example: "Learning rate is a key hyperparameter." },
-        { word: "validation", phonetic: "/ˌvælɪˈdeɪʃən/", meaning: "验证", example: "We use a validation set to tune parameters." },
-        { word: "cross-entropy", phonetic: "/krɒs ˈentrəpi/", meaning: "交叉熵", example: "Cross-entropy is a common loss function." },
-        { word: "backpropagation", phonetic: "/ˌbækprɒpəˈɡeɪʃən/", meaning: "反向传播", example: "Backpropagation computes gradients." },
-        { word: "checkpoint", phonetic: "/ˈtʃekpɔɪnt/", meaning: "检查点", example: "We save model checkpoints during training." },
+        { word: "optimizer", phonetic: "/ˈɒptɪmaɪzər/", spelling: "op·ti·miz·er", meaning: "优化器", example: "Adam is a popular optimizer." },
+        { word: "learning rate", phonetic: "/ˈlɜːnɪŋ reɪt/", spelling: "learn·ing rate", meaning: "学习率", example: "The learning rate controls step size." },
+        { word: "momentum", phonetic: "/məʊˈmentəm/", spelling: "mo·men·tum", meaning: "动量", example: "Momentum accelerates gradient descent." },
+        { word: "regularization", phonetic: "/ˌriːɡjʊləraɪˈzeɪʃən/", spelling: "reg·u·lar·i·za·tion", meaning: "正则化", example: "Regularization prevents overfitting." },
+        { word: "dropout", phonetic: "/ˈdrɒpˌaʊt/", spelling: "drop·out", meaning: "Dropout随机失活", example: "Dropout randomly disables neurons." },
+        { word: "hyperparameter", phonetic: "/ˌhaɪpəpəˈræmɪtər/", spelling: "hy·per·pa·ra·me·ter", meaning: "超参数", example: "Learning rate is a key hyperparameter." },
+        { word: "validation", phonetic: "/ˌvælɪˈdeɪʃən/", spelling: "val·i·da·tion", meaning: "验证", example: "We use a validation set to tune parameters." },
+        { word: "cross-entropy", phonetic: "/krɒs ˈentrəpi/", spelling: "cross-en·tro·py", meaning: "交叉熵", example: "Cross-entropy is a common loss function." },
+        { word: "backpropagation", phonetic: "/ˌbækprɒpəˈɡeɪʃən/", spelling: "back·pro·pa·ga·tion", meaning: "反向传播", example: "Backpropagation computes gradients." },
+        { word: "checkpoint", phonetic: "/ˈtʃekpɔɪnt/", spelling: "check·point", meaning: "检查点", example: "We save model checkpoints during training." },
     ]},
     { title: "Week 7：评估与部署", words: [
-        { word: "benchmark", phonetic: "/ˈbentʃmɑːk/", meaning: "基准测试", example: "We evaluate on standard benchmarks." },
-        { word: "metric", phonetic: "/ˈmetrɪk/", meaning: "评估指标", example: "Accuracy is a common metric." },
-        { word: "precision", phonetic: "/prɪˈsɪʒən/", meaning: "精确率", example: "Precision measures positive predictions." },
-        { word: "recall", phonetic: "/rɪˈkɔːl/", meaning: "召回率", example: "Recall measures missed positives." },
-        { word: "latency", phonetic: "/ˈleɪtənsi/", meaning: "延迟", example: "We aim for low latency inference." },
-        { word: "throughput", phonetic: "/ˈθruːpʊt/", meaning: "吞吐量", example: "Higher throughput means faster processing." },
-        { word: "quantization", phonetic: "/ˌkwɒntɪtaɪˈzeɪʃən/", meaning: "量化", example: "Quantization reduces model precision." },
-        { word: "distillation", phonetic: "/ˌdɪstɪˈleɪʃən/", meaning: "蒸馏", example: "Knowledge distillation transfers learned knowledge." },
-        { word: "on-device", phonetic: "/ɒn ˈdiːvaɪs/", meaning: "设备端", example: "On-device inference doesn't need cloud." },
-        { word: "deployment", phonetic: "/dɪˈplɔɪmənt/", meaning: "部署", example: "Model deployment requires careful planning." },
+        { word: "benchmark", phonetic: "/ˈbentʃmɑːk/", spelling: "bench·mark", meaning: "基准测试", example: "We evaluate on standard benchmarks." },
+        { word: "metric", phonetic: "/ˈmetrɪk/", spelling: "met·ric", meaning: "评估指标", example: "Accuracy is a common metric." },
+        { word: "precision", phonetic: "/prɪˈsɪʒən/", spelling: "pre·ci·sion", meaning: "精确率", example: "Precision measures positive predictions." },
+        { word: "recall", phonetic: "/rɪˈkɔːl/", spelling: "re·call", meaning: "召回率", example: "Recall measures missed positives." },
+        { word: "latency", phonetic: "/ˈleɪtənsi/", spelling: "la·ten·cy", meaning: "延迟", example: "We aim for low latency inference." },
+        { word: "throughput", phonetic: "/ˈθruːpʊt/", spelling: "through·put", meaning: "吞吐量", example: "Higher throughput means faster processing." },
+        { word: "quantization", phonetic: "/ˌkwɒntɪtaɪˈzeɪʃən/", spelling: "quan·ti·za·tion", meaning: "量化", example: "Quantization reduces model precision." },
+        { word: "distillation", phonetic: "/ˌdɪstɪˈleɪʃən/", spelling: "dis·til·la·tion", meaning: "蒸馏", example: "Knowledge distillation transfers learned knowledge." },
+        { word: "on-device", phonetic: "/ɒn ˈdiːvaɪs/", spelling: "on-de·vice", meaning: "设备端", example: "On-device inference doesn't need cloud." },
+        { word: "deployment", phonetic: "/dɪˈplɔɪmənt/", spelling: "de·ploy·ment", meaning: "部署", example: "Model deployment requires careful planning." },
     ]},
     { title: "Week 8：综合复习", words: [
-        { word: "parameter", phonetic: "/pəˈræmɪtər/", meaning: "参数", example: "The model has billions of parameters." },
-        { word: "tokenizer", phonetic: "/təʊkənaɪzər/", meaning: "分词器", example: "The tokenizer converts text to tokens." },
-        { word: "pipeline", phonetic: "/ˈpaɪplaɪn/", meaning: "流水线", example: "The ML pipeline includes data processing." },
-        { word: "upstream", phonetic: "/ˈʌpstriːm/", meaning: "上游", example: "The upstream model needs fine-tuning." },
-        { word: "downstream", phonetic: "/ˈdaʊnstriːm/", meaning: "下游", example: "Downstream tasks use the embeddings." },
-        { word: "ground truth", phonetic: "/ɡraʊnd trʌθ/", meaning: "真实标签", example: "We compare predictions against ground truth." },
-        { word: "reward", phonetic: "/rɪˈwɔːd/", meaning: "奖励", example: "The agent receives a reward signal." },
-        { word: "policy", phonetic: "/ˈpɒləsi/", meaning: "策略", example: "The policy network selects actions." },
-        { word: "generative", phonetic: "/ˈdʒenərətɪv/", meaning: "生成式的", example: "Generative AI creates new content." },
-        { word: "discriminative", phonetic: "/dɪˈskrɪmɪnətɪv/", meaning: "判别式的", example: "Discriminative models classify data." },
+        { word: "parameter", phonetic: "/pəˈræmɪtər/", spelling: "pa·ram·e·ter", meaning: "参数", example: "The model has billions of parameters." },
+        { word: "tokenizer", phonetic: "/təʊkənaɪzər/", spelling: "to·ken·i·zer", meaning: "分词器", example: "The tokenizer converts text to tokens." },
+        { word: "pipeline", phonetic: "/ˈpaɪplaɪn/", spelling: "pipe·line", meaning: "流水线", example: "The ML pipeline includes data processing." },
+        { word: "upstream", phonetic: "/ˈʌpstriːm/", spelling: "up·stream", meaning: "上游", example: "The upstream model needs fine-tuning." },
+        { word: "downstream", phonetic: "/ˈdaʊnstriːm/", spelling: "down·stream", meaning: "下游", example: "Downstream tasks use the embeddings." },
+        { word: "ground truth", phonetic: "/ɡraʊnd trʌθ/", spelling: "ground truth", meaning: "真实标签", example: "We compare predictions against ground truth." },
+        { word: "reward", phonetic: "/rɪˈwɔːd/", spelling: "re·ward", meaning: "奖励", example: "The agent receives a reward signal." },
+        { word: "policy", phonetic: "/ˈpɒləsi/", spelling: "pol·i·cy", meaning: "策略", example: "The policy network selects actions." },
+        { word: "generative", phonetic: "/ˈdʒenərətɪv/", spelling: "gen·er·a·tive", meaning: "生成式的", example: "Generative AI creates new content." },
+        { word: "discriminative", phonetic: "/dɪˈskrɪmɪnətɪv/", spelling: "dis·crim·i·na·tive", meaning: "判别式的", example: "Discriminative models classify data." },
     ]}
 ];
 
@@ -344,6 +345,7 @@ function renderAll() {
                         <span class="icon">▶</span>${w.word}
                     </button>
                 </td>
+                <td class="spelling">${w.spelling}</td>
                 <td class="phonetic">${w.phonetic}</td>
                 <td class="meaning">${w.meaning}</td>
                 <td class="example">${w.example}</td>
@@ -356,6 +358,7 @@ function renderAll() {
                 <thead>
                     <tr>
                         <th>单词（点击▶朗读）</th>
+                        <th>自然拼读</th>
                         <th>音标</th>
                         <th>中文</th>
                         <th>例句</th>
