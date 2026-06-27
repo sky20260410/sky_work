@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四年级上册英语单词朗读学习</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; color: #333; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 20px 16px; text-align: center; }
+        .header h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .header p { font-size: 12px; opacity: 0.85; }
+        .nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 16px; background: white; border-bottom: 1px solid #eee; justify-content: center; }
+        .nav button { padding: 6px 14px; border: 1px solid #ddd; background: white; border-radius: 16px; font-size: 12px; cursor: pointer; transition: all 0.2s; color: #555; }
+        .nav button:hover { border-color: #11998e; color: #11998e; }
+        .nav button.active { background: #11998e; color: white; border-color: #11998e; }
+        .content { padding: 12px; }
+        .week-section { display: none; }
+        .week-section.active { display: block; }
+        .week-title { font-size: 16px; color: #333; margin-bottom: 10px; padding: 8px 12px; background: linear-gradient(135deg, #11998e22, #38ef7d22); border-radius: 8px; border-left: 4px solid #11998e; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        th { background: #11998e; color: white; padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 500; }
+        td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; font-size: 12px; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fff9; }
+        .word-btn { background: #11998e; color: white; border: none; padding: 5px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; white-space: nowrap; }
+        .word-btn:hover { background: #0e8a7e; transform: scale(1.03); }
+        .word-btn:active { transform: scale(0.97); }
+        .word-btn.playing { background: #2a9d8f; animation: pulse 0.6s infinite alternate; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+        .icon { font-size: 10px; }
+        .spelling { color: #e67e22; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+        .phonetic { color: #888; font-size: 11px; }
+        .meaning { color: #444; }
+        .example { color: #888; font-size: 12px; font-style: italic; }
+        .footer { text-align: center; padding: 20px; color: #999; font-size: 11px; }
+        @media (max-width: 600px) { .header h1 { font-size: 18px; } th, td { padding: 6px 8px; font-size: 11px; } .spelling, .phonetic { font-size: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 四年级上册英语单词</h1>
+        <p>人教版PEP · 点击喇叭听发音</p>
+    </div>
+    <div class="nav" id="weekNav"></div>
+    <div id="content"></div>
+    <div class="footer">人教版PEP四年级上册 · 使用设备原生语音</div>
+<script>
+const weeks = [
+{ title: "Unit 1: My Classroom 教室", words: [
+        { word: "classroom", phonetic: "/ˈklɑːsruːm/", spelling: "clas·sroom", meaning: "教室", example: "This is my classroom." },
+        { word: "window", phonetic: "/ˈwɪndəʊ/", spelling: "win·dow", meaning: "窗户", example: "This is my window." },
+        { word: "blackboard", phonetic: "/ˈblækbɔːd/", spelling: "black·board", meaning: "黑板", example: "This is my blackboard." },
+        { word: "light", phonetic: "/laɪt/", spelling: "light", meaning: "电灯；灯", example: "This is my light." },
+        { word: "picture", phonetic: "/ˈpɪktʃə(r)/", spelling: "pic·ture", meaning: "图画；照片", example: "This is my picture." },
+        { word: "door", phonetic: "/dɔː(r)/", spelling: "door", meaning: "门", example: "This is my door." },
+        { word: "teacher\'s desk", phonetic: "/ˈtiːtʃəz desk/", spelling: "teach·er\'s desk", meaning: "讲台", example: "This is my teacher\'s desk." },
+        { word: "computer", phonetic: "/kəmˈpjuːtə(r)/", spelling: "com·pu·ter", meaning: "计算机；电脑", example: "This is my computer." },
+        { word: "fan", phonetic: "/fæn/", spelling: "fan", meaning: "风扇；扇子", example: "This is my fan." },
+        { word: "wall", phonetic: "/wɔːl/", spelling: "wall", meaning: "墙壁", example: "This is my wall." },
+        { word: "floor", phonetic: "/flɔː(r)/", spelling: "floor", meaning: "地板，地面", example: "This is my floor." },
+        { word: "really", phonetic: "/ˈriːəli/", spelling: "re·al·ly", meaning: "真的；的确", example: "This is my really." },
+        { word: "near", phonetic: "/nɪə(r)/", spelling: "near", meaning: "在……附近", example: "This is my near." },
+        { word: "clean", phonetic: "/kliːn/", spelling: "clean", meaning: "打扫；弄干净", example: "This is my clean." },
+        { word: "help", phonetic: "/help/", spelling: "help", meaning: "帮助", example: "This is my help." }
+    ]},
+{ title: "Unit 2: My Schoolbag 书包", words: [
+        { word: "schoolbag", phonetic: "/ˈskuːlˌbæg/", spelling: "school·bag", meaning: "书包", example: "This is my schoolbag." },
+        { word: "maths book", phonetic: "/mæθs/", spelling: "maths book", meaning: "数学书", example: "This is my maths book." },
+        { word: "English book", phonetic: "/ˈɪŋɡlɪʃ/", spelling: "Eng·lish book", meaning: "英语书", example: "This is my English book." },
+        { word: "Chinese book", phonetic: "/ˌtʃaɪˈniːz/", spelling: "Chi·nese book", meaning: "语文书", example: "This is my Chinese book." },
+        { word: "storybook", phonetic: "/ˈstɔːribʊk/", spelling: "sto·ry·book", meaning: "故事书", example: "This is my storybook." },
+        { word: "candy", phonetic: "/ˈkændi/", spelling: "can·dy", meaning: "糖果", example: "This is my candy." },
+        { word: "notebook", phonetic: "/ˈnəʊtbʊk/", spelling: "note·book", meaning: "笔记本", example: "This is my notebook." },
+        { word: "toy", phonetic: "/tɔɪ/", spelling: "toy", meaning: "玩具", example: "This is my toy." },
+        { word: "key", phonetic: "/kiː/", spelling: "key", meaning: "钥匙；关键", example: "This is my key." },
+        { word: "wow", phonetic: "/waʊ/", spelling: "wow", meaning: "哇；呀", example: "This is my wow." },
+        { word: "lost", phonetic: "/lɒst/", spelling: "lost", meaning: "丢失", example: "This is my lost." },
+        { word: "so much", phonetic: "/səʊ mʌtʃ/", spelling: "so much", meaning: "非常地", example: "This is my so much." },
+        { word: "cute", phonetic: "/kjuːt/", spelling: "cute", meaning: "可爱的", example: "This is my cute." }
+    ]},
+{ title: "Unit 3: My Friends 我的朋友", words: [
+        { word: "strong", phonetic: "/strɒŋ/", spelling: "strong", meaning: "强壮的", example: "This is my strong." },
+        { word: "friendly", phonetic: "/ˈfrendli/", spelling: "friend·ly", meaning: "友好的", example: "This is my friendly." },
+        { word: "quiet", phonetic: "/ˈkwaɪət/", spelling: "qui·et", meaning: "安静的", example: "This is my quiet." },
+        { word: "hair", phonetic: "/heə(r)/", spelling: "hair", meaning: "头发", example: "This is my hair." },
+        { word: "shoe", phonetic: "/ʃuː/", spelling: "shoe", meaning: "鞋子", example: "This is my shoe." },
+        { word: "glasses", phonetic: "/ˈɡlɑːsɪz/", spelling: "glas·ses", meaning: "眼镜", example: "This is my glasses." },
+        { word: "his", phonetic: "/hɪz/", spelling: "his", meaning: "他的", example: "This is my his." },
+        { word: "or", phonetic: "/ɔː(r)/", spelling: "or", meaning: "还是；或者", example: "This is my or." },
+        { word: "right", phonetic: "/raɪt/", spelling: "right", meaning: "正确的；右边", example: "This is my right." },
+        { word: "hat", phonetic: "/hæt/", spelling: "hat", meaning: "帽子", example: "This is my hat." },
+        { word: "her", phonetic: "/hə(r)/", spelling: "her", meaning: "她；她的", example: "This is my her." }
+    ]},
+{ title: "Unit 4: My Home 我的家", words: [
+        { word: "bedroom", phonetic: "/ˈbedruːm/", spelling: "bed·room", meaning: "卧室", example: "This is my bedroom." },
+        { word: "living room", phonetic: "/ˈlɪvɪŋ/", spelling: "liv·ing room", meaning: "客厅", example: "This is my living room." },
+        { word: "study", phonetic: "/ˈstʌdi/", spelling: "stu·dy", meaning: "书房", example: "This is my study." },
+        { word: "kitchen", phonetic: "/ˈkɪtʃɪn/", spelling: "kitch·en", meaning: "厨房", example: "This is my kitchen." },
+        { word: "bathroom", phonetic: "/ˈbɑːθruːm/", spelling: "bath·room", meaning: "浴室", example: "This is my bathroom." },
+        { word: "bed", phonetic: "/bed/", spelling: "bed", meaning: "床", example: "This is my bed." },
+        { word: "phone", phonetic: "/fəʊn/", spelling: "phone", meaning: "电话", example: "This is my phone." },
+        { word: "table", phonetic: "/ˈteɪbl/", spelling: "ta·ble", meaning: "桌子", example: "This is my table." },
+        { word: "sofa", phonetic: "/ˈsəʊfə/", spelling: "so·fa", meaning: "长沙发", example: "This is my sofa." },
+        { word: "fridge", phonetic: "/frɪdʒ/", spelling: "fridge", meaning: "冰箱", example: "This is my fridge." },
+        { word: "find", phonetic: "/faɪnd/", spelling: "find", meaning: "找到", example: "This is my find." },
+        { word: "them", phonetic: "/ðəm/", spelling: "them", meaning: "他/她/它们", example: "This is my them." }
+    ]},
+{ title: "Unit 5: Dinner's Ready 晚餐准备好了", words: [
+        { word: "beef", phonetic: "/biːf/", spelling: "beef", meaning: "牛肉", example: "This is my beef." },
+        { word: "chicken", phonetic: "/ˈtʃɪkɪn/", spelling: "chick·en", meaning: "鸡肉", example: "This is my chicken." },
+        { word: "noodles", phonetic: "/ˈnuːdlz/", spelling: "noo·dles", meaning: "面条", example: "This is my noodles." },
+        { word: "soup", phonetic: "/suːp/", spelling: "soup", meaning: "汤", example: "This is my soup." },
+        { word: "vegetable", phonetic: "/ˈvedʒtəbl/", spelling: "veg·e·ta·ble", meaning: "蔬菜", example: "This is my vegetable." },
+        { word: "chopsticks", phonetic: "/ˈtʃɒpstɪks/", spelling: "chop·sticks", meaning: "筷子", example: "This is my chopsticks." },
+        { word: "bowl", phonetic: "/bəʊl/", spelling: "bowl", meaning: "碗", example: "This is my bowl." },
+        { word: "fork", phonetic: "/fɔːk/", spelling: "fork", meaning: "餐叉", example: "This is my fork." },
+        { word: "knife", phonetic: "/naɪf/", spelling: "knife", meaning: "刀", example: "This is my knife." },
+        { word: "spoon", phonetic: "/spuːn/", spelling: "spoon", meaning: "匙；勺子", example: "This is my spoon." },
+        { word: "dinner", phonetic: "/ˈdɪnə(r)/", spelling: "din·ner", meaning: "正餐", example: "This is my dinner." },
+        { word: "ready", phonetic: "/ˈredi/", spelling: "read·y", meaning: "准备好", example: "This is my ready." },
+        { word: "help yourself", phonetic: "/jɔːˈself/", spelling: "help your·self", meaning: "为（自己）取用", example: "This is my help yourself." },
+        { word: "pass", phonetic: "/pɑːs/", spelling: "pass", meaning: "给；递", example: "This is my pass." },
+        { word: "try", phonetic: "/traɪ/", spelling: "try", meaning: "试；尝试", example: "This is my try." }
+    ]},
+{ title: "Unit 6: Meet My Family! 认识我的家人！", words: [
+        { word: "parents", phonetic: "/ˈpeərənts/", spelling: "pa·rents", meaning: "父母", example: "This is my parents." },
+        { word: "cousin", phonetic: "/ˈkʌzn/", spelling: "cous·in", meaning: "同辈表/堂亲", example: "This is my cousin." },
+        { word: "uncle", phonetic: "/ˈʌŋkl/", spelling: "un·cle", meaning: "舅父；叔父等", example: "This is my uncle." },
+        { word: "aunt", phonetic: "/ɑːnt/", spelling: "aunt", meaning: "姑母；姨母", example: "This is my aunt." },
+        { word: "baby brother", phonetic: "/ˈbeɪbi/", spelling: "ba·by bro·ther", meaning: "婴儿小弟弟", example: "This is my baby brother." },
+        { word: "doctor", phonetic: "/ˈdɒktə(r)/", spelling: "doc·tor", meaning: "医生", example: "This is my doctor." },
+        { word: "cook", phonetic: "/kʊk/", spelling: "cook", meaning: "厨师；烹饪", example: "This is my cook." },
+        { word: "driver", phonetic: "/ˈdraɪvə(r)/", spelling: "dri·ver", meaning: "司机", example: "This is my driver." },
+        { word: "farmer", phonetic: "/ˈfɑːmə(r)/", spelling: "farm·er", meaning: "农民", example: "This is my farmer." },
+        { word: "nurse", phonetic: "/nɜːs/", spelling: "nurse", meaning: "护士", example: "This is my nurse." },
+        { word: "people", phonetic: "/ˈpiːpl/", spelling: "peo·ple", meaning: "人们", example: "This is my people." },
+        { word: "but", phonetic: "/bʌt/", spelling: "but", meaning: "但是", example: "This is my but." },
+        { word: "little", phonetic: "/ˈlɪtl/", spelling: "lit·tle", meaning: "小的", example: "This is my little." },
+        { word: "puppy", phonetic: "/ˈpʌpi/", spelling: "pup·py", meaning: "小狗", example: "This is my puppy." },
+        { word: "football player", phonetic: "/ˈfʊtbɔːl ˈpleɪə(r)/", spelling: "foot·ball play·er", meaning: "足球运动员", example: "This is my football player." },
+        { word: "job", phonetic: "/dʒɒb/", spelling: "job", meaning: "工作", example: "This is my job." },
+        { word: "basketball", phonetic: "/ˈbɑːskɪtbɔːl/", spelling: "base·ket·ball", meaning: "篮球", example: "This is my basketball." }
+    ]}
+];
+
+];
+
+let voices = [];
+let currentUtterance = null;
+let currentBtn = null;
+
+function initVoices() {
+    voices = window.speechSynthesis.getVoices();
+}
+initVoices();
+window.speechSynthesis.onvoiceschanged = initVoices;
+
+function getBestVoice() {
+    if (!voices.length) voices = window.speechSynthesis.getVoices();
+    const priority = [
+        v => v.lang === 'en-US' && /Samantha|Karen|Victoria|Siri/.test(v.name),
+        v => v.lang === 'en-US',
+        v => v.lang.startsWith('en'),
+    ];
+    for (const filter of priority) {
+        const found = voices.filter(filter);
+        if (found.length) return found[0];
+    }
+    return voices[0] || null;
+}
+
+function speak(text, btn) {
+    if (!text) return;
+    if (currentUtterance && currentBtn === btn) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+        if (btn) btn.classList.remove('playing');
+        currentBtn = null;
+        return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    utterance.pitch = 1.0;
+    const voice = getBestVoice();
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => {
+        if (currentBtn && currentBtn !== btn) currentBtn.classList.remove('playing');
+        if (btn) btn.classList.add('playing');
+        currentBtn = btn;
+    };
+    utterance.onend = utterance.onerror = () => {
+        if (btn) btn.classList.remove('playing');
+        currentBtn = null;
+    };
+    currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+}
+
+const nav = document.getElementById('weekNav');
+weeks.forEach((w, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'week-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = `Unit ${i + 1}`;
+    btn.onclick = () => showWeek(i);
+    nav.appendChild(btn);
+});
+
+function showWeek(index) {
+    document.querySelectorAll('.week-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.week-section').forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+    });
+}
+
+function renderAll() {
+    const container = document.getElementById('content');
+    weeks.forEach((week, wi) => {
+        const section = document.createElement('div');
+        section.className = 'week-section' + (wi === 0 ? ' active' : '');
+        const tableRows = week.words.map(w => `
+            <tr>
+                <td><button class="word-btn" onclick="speak('${w.word}', this)"><span class="icon">▶</span>${w.word}</button></td>
+                <td class="spelling">${w.spelling}</td>
+                <td class="phonetic">${w.phonetic}</td>
+                <td class="meaning">${w.meaning}</td>
+                <td class="example">${w.example}</td>
+            </tr>
+        `).join('');
+        section.innerHTML = `
+            <h2 class="week-title">${week.title}</h2>
+            <table>
+                <thead><tr><th>单词（点击▶朗读）</th><th>自然拼读</th><th>音标</th><th>中文</th><th>例句</th></tr></thead>
+                <tbody>${tableRows}</tbody>
+            </table>
+        `;
+        container.appendChild(section);
+    });
+}
+
+renderAll();
+document.body.addEventListener('touchstart', () => {}, { once: true });
+</script>
+</body>
+</html>
