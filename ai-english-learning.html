@@ -5,299 +5,314 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 英语单词朗读学习</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #f5f5f5;
+            background: #f0f4f8;
             color: #333;
-            padding: 20px;
+            padding: 15px;
             max-width: 900px;
             margin: 0 auto;
+            font-size: 15px;
         }
         h1 {
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            color: #1a3a5c;
+            margin: 15px 0 5px;
+            font-size: 22px;
         }
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .info-bar {
+            background: #e8f4fd;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #2c7ab8;
+            text-align: center;
         }
         .week-nav {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .week-btn {
-            padding: 8px 16px;
+            padding: 7px 14px;
             border: none;
-            border-radius: 20px;
-            background: #e0e0e0;
-            color: #333;
+            border-radius: 15px;
+            background: #dde3ea;
+            color: #444;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s;
         }
-        .week-btn:hover {
-            background: #2c3e50;
-            color: white;
-        }
-        .week-btn.active {
-            background: #3498db;
-            color: white;
-        }
-        .week-section {
-            display: none;
-        }
-        .week-section.active {
-            display: block;
-        }
+        .week-btn:hover { background: #c0cdd8; }
+        .week-btn.active { background: #3498db; color: white; }
+
+        .week-section { display: none; }
+        .week-section.active { display: block; }
+
         .week-title {
-            font-size: 18px;
-            color: #2c3e50;
-            margin: 20px 0 15px;
+            font-size: 16px;
+            color: #1a3a5c;
+            margin: 18px 0 12px;
             padding-bottom: 5px;
             border-bottom: 2px solid #3498db;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
         }
         th {
-            background: #2c3e50;
+            background: #1a3a5c;
             color: white;
-            padding: 12px 15px;
+            padding: 10px 12px;
             text-align: left;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 500;
         }
         td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            vertical-align: middle;
         }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:hover {
-            background: #f0f7ff;
-        }
-        .word {
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8fbff; }
+
+        /* 单词朗读按钮 */
+        .word-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             color: #3498db;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        .word:hover {
-            background: #d0e8ff;
-        }
-        .word:active {
-            background: #a0c8ff;
-        }
-        .phonetic {
-            color: #888;
-            font-style: italic;
-        }
-        .meaning {
-            color: #555;
-        }
-        .example {
-            color: #777;
-            font-size: 12px;
-        }
-        .click-hint {
-            color: #999;
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .all-words-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 12px 30px;
-            background: #e74c3c;
-            color: white;
+            background: #e8f4fd;
             border: none;
-            border-radius: 25px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background 0.2s;
+            border-radius: 8px;
+            padding: 5px 12px 5px 8px;
+            transition: all 0.15s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        .all-words-btn:hover {
-            background: #c0392b;
+        .word-btn:hover { background: #cce8f7; }
+        .word-btn:active, .word-btn.playing {
+            background: #3498db;
+            color: white;
         }
-        .progress-info {
-            text-align: center;
-            color: #888;
-            font-size: 13px;
-            margin-top: 5px;
+        .word-btn.playing .icon { animation: bounce 0.5s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
+
+        .icon { font-size: 14px; line-height: 1; }
+        .phonetic { color: #888; font-size: 12px; }
+        .meaning { color: #444; }
+        .example { color: #888; font-size: 12px; font-style: italic; }
+
         .footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
             color: #aaa;
-            font-size: 12px;
+            font-size: 11px;
+        }
+
+        /* iOS Safari fix */
+        @supports (-webkit-touch-callout: none) {
+            .word-btn { -webkit-appearance: none; }
         }
     </style>
 </head>
 <body>
 
 <h1>🗣️ AI 英语单词朗读学习</h1>
-<p class="subtitle">点击蓝色单词即可听发音 · 浏览器自带朗读，无需联网</p>
+<p class="subtitle">点击 ▶ 按钮听发音 · 支持 iPhone/Android</p>
 
-<div class="click-hint">💡 点击任意单词即可听发音</div>
+<div class="info-bar">
+    💡 iPhone 用户：点击 ▶ 按钮后稍等，Siri 语音会自动朗读
+</div>
 
 <div class="week-nav" id="weekNav"></div>
-
 <div id="content"></div>
-
-<div class="footer">
-    基于 AI 英语学习计划生成 · 使用 Web Speech API 朗读
-</div>
+<div class="footer">基于 AI 英语学习计划 · 使用设备原生语音</div>
 
 <script>
 const weeks = [
-    {
-        title: "Week 1：机器学习基础",
-        words: [
-            { word: "algorithm", phonetic: "/ˈælɡərɪðəm/", meaning: "算法", example: "A neural network is a type of algorithm." },
-            { word: "dataset", phonetic: "/ˈdeɪtəˌset/", meaning: "数据集", example: "The dataset contains 10,000 images." },
-            { word: "training", phonetic: "/ˈtreɪnɪŋ/", meaning: "训练", example: "Training a model requires lots of data." },
-            { word: "inference", phonetic: "/ˈɪnfərəns/", meaning: "推理", example: "The model performs inference in real time." },
-            { word: "label", phonetic: "/ˈleɪbəl/", meaning: "标签", example: "Each image has a corresponding label." },
-            { word: "feature", phonetic: "/ˈfiːtʃər/", meaning: "特征", example: "The network learns to extract features." },
-            { word: "gradient", phonetic: "/ˈɡreɪdiənt/", meaning: "梯度", example: "We use gradient descent to optimize." },
-            { word: "epoch", phonetic: "/ˈiːpɒk/", meaning: "轮次", example: "One epoch means one pass through the data." },
-            { word: "batch", phonetic: "/bætʃ/", meaning: "批次", example: "We process data in batches of 32." },
-            { word: "overfit", phonetic: "/ˌəʊvəˈfɪt/", meaning: "过拟合", example: "The model overfits when it memorizes data." },
-        ]
-    },
-    {
-        title: "Week 2：神经网络核心",
-        words: [
-            { word: "neuron", phonetic: "/ˈnjʊərɒn/", meaning: "神经元", example: "A neuron receives inputs and produces output." },
-            { word: "layer", phonetic: "/ˈleɪər/", meaning: "层", example: "The network has three hidden layers." },
-            { word: "weight", phonetic: "/weɪt/", meaning: "权重", example: "Each connection has an associated weight." },
-            { word: "bias", phonetic: "/ˈbaɪəs/", meaning: "偏置", example: "Bias allows the model to shift the activation." },
-            { word: "activation", phonetic: "/ˌæktɪˈveɪʃən/", meaning: "激活函数", example: "ReLU is a popular activation function." },
-            { word: "softmax", phonetic: "/ˈsɒftmæks/", meaning: "Softmax函数", example: "Softmax converts outputs to probabilities." },
-            { word: "embedding", phonetic: "/ɪmˈbedɪŋ/", meaning: "嵌入向量", example: "Word embedding represents words as vectors." },
-            { word: "tensor", phonetic: "/ˈtensər/", meaning: "张量", example: "All data in PyTorch is a tensor." },
-            { word: "dimension", phonetic: "/daɪˈmenʃən/", meaning: "维度", example: "The vector has 512 dimensions." },
-            { word: "architecture", phonetic: "/ˌɑːkɪˈtektʃər/", meaning: "架构", example: "This is a transformer architecture." },
-        ]
-    },
-    {
-        title: "Week 3：深度学习模型",
-        words: [
-            { word: "convolutional", phonetic: "/ˌkɒnvəˈluːʃənəl/", meaning: "卷积的", example: "Convolutional layers extract spatial features." },
-            { word: "recurrent", phonetic: "/rɪˈkʌrənt/", meaning: "循环的", example: "Recurrent networks process sequential data." },
-            { word: "transformer", phonetic: "/trænsˈfɔːmər/", meaning: "Transformer模型", example: "The transformer revolutionized NLP." },
-            { word: "attention", phonetic: "/əˈtenʃən/", meaning: "注意力机制", example: "Attention lets the model focus on key parts." },
-            { word: "self-attention", phonetic: "/self əˈtenʃən/", meaning: "自注意力", example: "Self-attention computes relationships within a sequence." },
-            { word: "encoder", phonetic: "/ɪnˈkəʊdər/", meaning: "编码器", example: "The encoder processes the input sequence." },
-            { word: "decoder", phonetic: "/dɪˈkəʊdər/", meaning: "解码器", example: "The decoder generates the output." },
-            { word: "pre-train", phonetic: "/priːˈtreɪn/", meaning: "预训练", example: "We pre-train the model on large data." },
-            { word: "fine-tune", phonetic: "/faɪn tjuːn/", meaning: "微调", example: "We fine-tune the model on our specific task." },
-            { word: "scaling", phonetic: "/ˈskeɪlɪŋ/", meaning: "规模化", example: "Scaling laws describe compute trends." },
-        ]
-    },
-    {
-        title: "Week 4：自然语言处理",
-        words: [
-            { word: "token", phonetic: "/ˈtəʊkən/", meaning: "词元/标记", example: "Each word is converted to a token." },
-            { word: "vocabulary", phonetic: "/vəˈkæbjʊləri/", meaning: "词汇表", example: "The vocabulary size is 50,000." },
-            { word: "tokenization", phonetic: "/ˌtəʊkənaɪˈzeɪʃən/", meaning: "分词", example: "Tokenization splits text into tokens." },
-            { word: "corpus", phonetic: "/ˈkɔːpəs/", meaning: "语料库", example: "The corpus contains millions of sentences." },
-            { word: "sequence", phonetic: "/ˈsiːkwəns/", meaning: "序列", example: "The input is a sequence of tokens." },
-            { word: "context", phonetic: "/ˈkɒntekst/", meaning: "上下文", example: "Context helps disambiguate meaning." },
-            { word: "sentiment", phonetic: "/ˈsentɪmənt/", meaning: "情感", example: "Sentiment analysis classifies opinions." },
-            { word: "generation", phonetic: "/ˌdʒenəˈreɪʃən/", meaning: "生成", example: "Text generation is a key capability." },
-            { word: "prompt", phonetic: "/prɒmpt/", meaning: "提示词", example: "The user provides a prompt to the model." },
-            { word: "retrieval", phonetic: "/rɪˈtraɪvəl/", meaning: "检索", example: "Retrieval augmented generation improves accuracy." },
-        ]
-    },
-    {
-        title: "Week 5：大语言模型",
-        words: [
-            { word: "reinforcement", phonetic: "/ˌriːɪnˈfɔːsmənt/", meaning: "强化", example: "Reinforcement learning uses rewards." },
-            { word: "prompt engineering", phonetic: "/prɒmpt ˌendʒɪˈnɪərɪŋ/", meaning: "提示工程", example: "Prompt engineering optimizes model inputs." },
-            { word: "hallucination", phonetic: "/həˌluːsɪˈneɪʃən/", meaning: "幻觉（模型杜撰）", example: "The model may produce hallucinations." },
-            { word: "alignment", phonetic: "/əˈlaɪnmənt/", meaning: "对齐", example: "Alignment ensures the model follows human values." },
-            { word: "emergent", phonetic: "/ˈemərdʒənt/", meaning: "涌现的", example: "Creativity is an emergent property." },
-            { word: "chain-of-thought", phonetic: "/tʃeɪn əv θɔːt/", meaning: "思维链", example: "Chain-of-thought prompting improves reasoning." },
-            { word: "instruction tuning", phonetic: "/ɪnˈstrʌkʃən ˈtjuːnɪŋ/", meaning: "指令微调", example: "Instruction tuning improves following ability." },
-            { word: "zero-shot", phonetic: "/ˈzɪərəʊ ʃɒt/", meaning: "零样本", example: "The model does zero-shot classification." },
-            { word: "few-shot", phonetic: "/fjuː ʃɒt/", meaning: "少样本", example: "Few-shot learning needs only a few examples." },
-            { word: "涌现", phonetic: "/ˌɪməˈdʒɜːns/", meaning: "emergence", example: "Complex behaviors emerge from simple rules." },
-        ]
-    },
-    {
-        title: "Week 6：训练与优化",
-        words: [
-            { word: "optimizer", phonetic: "/ˈɒptɪmaɪzər/", meaning: "优化器", example: "Adam is a popular optimizer." },
-            { word: "learning rate", phonetic: "/ˈlɜːnɪŋ reɪt/", meaning: "学习率", example: "The learning rate controls step size." },
-            { word: "momentum", phonetic: "/məʊˈmentəm/", meaning: "动量", example: "Momentum accelerates gradient descent." },
-            { word: "regularization", phonetic: "/ˌriːɡjʊləraɪˈzeɪʃən/", meaning: "正则化", example: "Regularization prevents overfitting." },
-            { word: "dropout", phonetic: "/ˈdrɒpˌaʊt/", meaning: "Dropout随机失活", example: "Dropout randomly disables neurons." },
-            { word: "hyperparameter", phonetic: "/ˌhaɪpəpəˈræmɪtər/", meaning: "超参数", example: "Learning rate is a key hyperparameter." },
-            { word: "validation", phonetic: "/ˌvælɪˈdeɪʃən/", meaning: "验证", example: "We use a validation set to tune parameters." },
-            { word: "cross-entropy", phonetic: "/krɒs ˈentrəpi/", meaning: "交叉熵", example: "Cross-entropy is a common loss function." },
-            { word: "backpropagation", phonetic: "/ˌbækprɒpəˈɡeɪʃən/", meaning: "反向传播", example: "Backpropagation computes gradients." },
-            { word: "checkpoint", phonetic: "/ˈtʃekpɔɪnt/", meaning: "检查点", example: "We save model checkpoints during training." },
-        ]
-    },
-    {
-        title: "Week 7：评估与部署",
-        words: [
-            { word: "benchmark", phonetic: "/ˈbentʃmɑːk/", meaning: "基准测试", example: "We evaluate on standard benchmarks." },
-            { word: "metric", phonetic: "/ˈmetrɪk/", meaning: "评估指标", example: "Accuracy is a common metric." },
-            { word: "precision", phonetic: "/prɪˈsɪʒən/", meaning: "精确率", example: "Precision measures positive predictions." },
-            { word: "recall", phonetic: "/rɪˈkɔːl/", meaning: "召回率", example: "Recall measures missed positives." },
-            { word: "latency", phonetic: "/ˈleɪtənsi/", meaning: "延迟", example: "We aim for low latency inference." },
-            { word: "throughput", phonetic: "/ˈθruːpʊt/", meaning: "吞吐量", example: "Higher throughput means faster processing." },
-            { word: "quantization", phonetic: "/ˌkwɒntɪtaɪˈzeɪʃən/", meaning: "量化", example: "Quantization reduces model precision." },
-            { word: "distillation", phonetic: "/ˌdɪstɪˈleɪʃən/", meaning: "蒸馏", example: "Knowledge distillation transfers learned knowledge." },
-            { word: "on-device", phonetic: "/ɒn ˈdiːvaɪs/", meaning: "设备端", example: "On-device inference doesn't need cloud." },
-            { word: "deployment", phonetic: "/dɪˈplɔɪmənt/", meaning: "部署", example: "Model deployment requires careful planning." },
-        ]
-    },
-    {
-        title: "Week 8：综合复习",
-        words: [
-            { word: "parameter", phonetic: "/pəˈræmɪtər/", meaning: "参数", example: "The model has billions of parameters." },
-            { word: "tokenizer", phonetic: "/təʊkənaɪzər/", meaning: "分词器", example: "The tokenizer converts text to tokens." },
-            { word: "pipeline", phonetic: "/ˈpaɪplaɪn/", meaning: "流水线", example: "The ML pipeline includes data processing." },
-            { word: "upstream", phonetic: "/ˈʌpstriːm/", meaning: "上游", example: "The upstream model needs fine-tuning." },
-            { word: "downstream", phonetic: "/ˈdaʊnstriːm/", meaning: "下游", example: "Downstream tasks use the embeddings." },
-            { word: "ground truth", phonetic: "/ɡraʊnd trʌθ/", meaning: "真实标签", example: "We compare predictions against ground truth." },
-            { word: "reward", phonetic: "/rɪˈwɔːd/", meaning: "奖励", example: "The agent receives a reward signal." },
-            { word: "policy", phonetic: "/ˈpɒləsi/", meaning: "策略", example: "The policy network selects actions." },
-            { word: "generative", phonetic: "/ˈdʒenərətɪv/", meaning: "生成式的", example: "Generative AI creates new content." },
-            { word: "discriminative", phonetic: "/dɪˈskrɪmɪnətɪv/", meaning: "判别式的", example: "Discriminative models classify data." },
-        ]
-    }
+    { title: "Week 1：机器学习基础", words: [
+        { word: "algorithm", phonetic: "/ˈælɡərɪðəm/", meaning: "算法", example: "A neural network is a type of algorithm." },
+        { word: "dataset", phonetic: "/ˈdeɪtəˌset/", meaning: "数据集", example: "The dataset contains 10,000 images." },
+        { word: "training", phonetic: "/ˈtreɪnɪŋ/", meaning: "训练", example: "Training a model requires lots of data." },
+        { word: "inference", phonetic: "/ˈɪnfərəns/", meaning: "推理", example: "The model performs inference in real time." },
+        { word: "label", phonetic: "/ˈleɪbəl/", meaning: "标签", example: "Each image has a corresponding label." },
+        { word: "feature", phonetic: "/ˈfiːtʃər/", meaning: "特征", example: "The network learns to extract features." },
+        { word: "gradient", phonetic: "/ˈɡreɪdiənt/", meaning: "梯度", example: "We use gradient descent to optimize." },
+        { word: "epoch", phonetic: "/ˈiːpɒk/", meaning: "轮次", example: "One epoch means one pass through the data." },
+        { word: "batch", phonetic: "/bætʃ/", meaning: "批次", example: "We process data in batches of 32." },
+        { word: "overfit", phonetic: "/ˌəʊvəˈfɪt/", meaning: "过拟合", example: "The model overfits when it memorizes data." },
+    ]},
+    { title: "Week 2：神经网络核心", words: [
+        { word: "neuron", phonetic: "/ˈnjʊərɒn/", meaning: "神经元", example: "A neuron receives inputs and produces output." },
+        { word: "layer", phonetic: "/ˈleɪər/", meaning: "层", example: "The network has three hidden layers." },
+        { word: "weight", phonetic: "/weɪt/", meaning: "权重", example: "Each connection has an associated weight." },
+        { word: "bias", phonetic: "/ˈbaɪəs/", meaning: "偏置", example: "Bias allows the model to shift the activation." },
+        { word: "activation", phonetic: "/ˌæktɪˈveɪʃən/", meaning: "激活函数", example: "ReLU is a popular activation function." },
+        { word: "softmax", phonetic: "/ˈsɒftmæks/", meaning: "Softmax函数", example: "Softmax converts outputs to probabilities." },
+        { word: "embedding", phonetic: "/ɪmˈbedɪŋ/", meaning: "嵌入向量", example: "Word embedding represents words as vectors." },
+        { word: "tensor", phonetic: "/ˈtensər/", meaning: "张量", example: "All data in PyTorch is a tensor." },
+        { word: "dimension", phonetic: "/daɪˈmenʃən/", meaning: "维度", example: "The vector has 512 dimensions." },
+        { word: "architecture", phonetic: "/ˌɑːkɪˈtektʃər/", meaning: "架构", example: "This is a transformer architecture." },
+    ]},
+    { title: "Week 3：深度学习模型", words: [
+        { word: "convolutional", phonetic: "/ˌkɒnvəˈluːʃənəl/", meaning: "卷积的", example: "Convolutional layers extract spatial features." },
+        { word: "recurrent", phonetic: "/rɪˈkʌrənt/", meaning: "循环的", example: "Recurrent networks process sequential data." },
+        { word: "transformer", phonetic: "/trænsˈfɔːmər/", meaning: "Transformer模型", example: "The transformer revolutionized NLP." },
+        { word: "attention", phonetic: "/əˈtenʃən/", meaning: "注意力机制", example: "Attention lets the model focus on key parts." },
+        { word: "self-attention", phonetic: "/self əˈtenʃən/", meaning: "自注意力", example: "Self-attention computes relationships within a sequence." },
+        { word: "encoder", phonetic: "/ɪnˈkəʊdər/", meaning: "编码器", example: "The encoder processes the input sequence." },
+        { word: "decoder", phonetic: "/dɪˈkəʊdər/", meaning: "解码器", example: "The decoder generates the output." },
+        { word: "pre-train", phonetic: "/priːˈtreɪn/", meaning: "预训练", example: "We pre-train the model on large data." },
+        { word: "fine-tune", phonetic: "/faɪn tjuːn/", meaning: "微调", example: "We fine-tune the model on our specific task." },
+        { word: "scaling", phonetic: "/ˈskeɪlɪŋ/", meaning: "规模化", example: "Scaling laws describe compute trends." },
+    ]},
+    { title: "Week 4：自然语言处理", words: [
+        { word: "token", phonetic: "/ˈtəʊkən/", meaning: "词元/标记", example: "Each word is converted to a token." },
+        { word: "vocabulary", phonetic: "/vəˈkæbjʊləri/", meaning: "词汇表", example: "The vocabulary size is 50,000." },
+        { word: "tokenization", phonetic: "/ˌtəʊkənaɪˈzeɪʃən/", meaning: "分词", example: "Tokenization splits text into tokens." },
+        { word: "corpus", phonetic: "/ˈkɔːpəs/", meaning: "语料库", example: "The corpus contains millions of sentences." },
+        { word: "sequence", phonetic: "/ˈsiːkwəns/", meaning: "序列", example: "The input is a sequence of tokens." },
+        { word: "context", phonetic: "/ˈkɒntekst/", meaning: "上下文", example: "Context helps disambiguate meaning." },
+        { word: "sentiment", phonetic: "/ˈsentɪmənt/", meaning: "情感", example: "Sentiment analysis classifies opinions." },
+        { word: "generation", phonetic: "/ˌdʒenəˈreɪʃən/", meaning: "生成", example: "Text generation is a key capability." },
+        { word: "prompt", phonetic: "/prɒmpt/", meaning: "提示词", example: "The user provides a prompt to the model." },
+        { word: "retrieval", phonetic: "/rɪˈtraɪvəl/", meaning: "检索", example: "Retrieval augmented generation improves accuracy." },
+    ]},
+    { title: "Week 5：大语言模型", words: [
+        { word: "reinforcement", phonetic: "/ˌriːɪnˈfɔːsmənt/", meaning: "强化", example: "Reinforcement learning uses rewards." },
+        { word: "prompt engineering", phonetic: "/prɒmpt ˌendʒɪˈnɪərɪŋ/", meaning: "提示工程", example: "Prompt engineering optimizes model inputs." },
+        { word: "hallucination", phonetic: "/həˌluːsɪˈneɪʃən/", meaning: "幻觉（模型杜撰）", example: "The model may produce hallucinations." },
+        { word: "alignment", phonetic: "/əˈlaɪnmənt/", meaning: "对齐", example: "Alignment ensures the model follows human values." },
+        { word: "emergent", phonetic: "/ˈemərdʒənt/", meaning: "涌现的", example: "Creativity is an emergent property." },
+        { word: "chain-of-thought", phonetic: "/tʃeɪn əv θɔːt/", meaning: "思维链", example: "Chain-of-thought prompting improves reasoning." },
+        { word: "instruction tuning", phonetic: "/ɪnˈstrʌkʃən ˈtjuːnɪŋ/", meaning: "指令微调", example: "Instruction tuning improves following ability." },
+        { word: "zero-shot", phonetic: "/ˈzɪərəʊ ʃɒt/", meaning: "零样本", example: "The model does zero-shot classification." },
+        { word: "few-shot", phonetic: "/fjuː ʃɒt/", meaning: "少样本", example: "Few-shot learning needs only a few examples." },
+        { word: "涌现", phonetic: "/ˌɪməˈdʒɜːns/", meaning: "emergence", example: "Complex behaviors emerge from simple rules." },
+    ]},
+    { title: "Week 6：训练与优化", words: [
+        { word: "optimizer", phonetic: "/ˈɒptɪmaɪzər/", meaning: "优化器", example: "Adam is a popular optimizer." },
+        { word: "learning rate", phonetic: "/ˈlɜːnɪŋ reɪt/", meaning: "学习率", example: "The learning rate controls step size." },
+        { word: "momentum", phonetic: "/məʊˈmentəm/", meaning: "动量", example: "Momentum accelerates gradient descent." },
+        { word: "regularization", phonetic: "/ˌriːɡjʊləraɪˈzeɪʃən/", meaning: "正则化", example: "Regularization prevents overfitting." },
+        { word: "dropout", phonetic: "/ˈdrɒpˌaʊt/", meaning: "Dropout随机失活", example: "Dropout randomly disables neurons." },
+        { word: "hyperparameter", phonetic: "/ˌhaɪpəpəˈræmɪtər/", meaning: "超参数", example: "Learning rate is a key hyperparameter." },
+        { word: "validation", phonetic: "/ˌvælɪˈdeɪʃən/", meaning: "验证", example: "We use a validation set to tune parameters." },
+        { word: "cross-entropy", phonetic: "/krɒs ˈentrəpi/", meaning: "交叉熵", example: "Cross-entropy is a common loss function." },
+        { word: "backpropagation", phonetic: "/ˌbækprɒpəˈɡeɪʃən/", meaning: "反向传播", example: "Backpropagation computes gradients." },
+        { word: "checkpoint", phonetic: "/ˈtʃekpɔɪnt/", meaning: "检查点", example: "We save model checkpoints during training." },
+    ]},
+    { title: "Week 7：评估与部署", words: [
+        { word: "benchmark", phonetic: "/ˈbentʃmɑːk/", meaning: "基准测试", example: "We evaluate on standard benchmarks." },
+        { word: "metric", phonetic: "/ˈmetrɪk/", meaning: "评估指标", example: "Accuracy is a common metric." },
+        { word: "precision", phonetic: "/prɪˈsɪʒən/", meaning: "精确率", example: "Precision measures positive predictions." },
+        { word: "recall", phonetic: "/rɪˈkɔːl/", meaning: "召回率", example: "Recall measures missed positives." },
+        { word: "latency", phonetic: "/ˈleɪtənsi/", meaning: "延迟", example: "We aim for low latency inference." },
+        { word: "throughput", phonetic: "/ˈθruːpʊt/", meaning: "吞吐量", example: "Higher throughput means faster processing." },
+        { word: "quantization", phonetic: "/ˌkwɒntɪtaɪˈzeɪʃən/", meaning: "量化", example: "Quantization reduces model precision." },
+        { word: "distillation", phonetic: "/ˌdɪstɪˈleɪʃən/", meaning: "蒸馏", example: "Knowledge distillation transfers learned knowledge." },
+        { word: "on-device", phonetic: "/ɒn ˈdiːvaɪs/", meaning: "设备端", example: "On-device inference doesn't need cloud." },
+        { word: "deployment", phonetic: "/dɪˈplɔɪmənt/", meaning: "部署", example: "Model deployment requires careful planning." },
+    ]},
+    { title: "Week 8：综合复习", words: [
+        { word: "parameter", phonetic: "/pəˈræmɪtər/", meaning: "参数", example: "The model has billions of parameters." },
+        { word: "tokenizer", phonetic: "/təʊkənaɪzər/", meaning: "分词器", example: "The tokenizer converts text to tokens." },
+        { word: "pipeline", phonetic: "/ˈpaɪplaɪn/", meaning: "流水线", example: "The ML pipeline includes data processing." },
+        { word: "upstream", phonetic: "/ˈʌpstriːm/", meaning: "上游", example: "The upstream model needs fine-tuning." },
+        { word: "downstream", phonetic: "/ˈdaʊnstriːm/", meaning: "下游", example: "Downstream tasks use the embeddings." },
+        { word: "ground truth", phonetic: "/ɡraʊnd trʌθ/", meaning: "真实标签", example: "We compare predictions against ground truth." },
+        { word: "reward", phonetic: "/rɪˈwɔːd/", meaning: "奖励", example: "The agent receives a reward signal." },
+        { word: "policy", phonetic: "/ˈpɒləsi/", meaning: "策略", example: "The policy network selects actions." },
+        { word: "generative", phonetic: "/ˈdʒenərətɪv/", meaning: "生成式的", example: "Generative AI creates new content." },
+        { word: "discriminative", phonetic: "/dɪˈskrɪmɪnətɪv/", meaning: "判别式的", example: "Discriminative models classify data." },
+    ]}
 ];
 
-let totalWords = 0;
-weeks.forEach((w, wi) => { totalWords += w.words.length; });
+let voices = [];
+let currentUtterance = null;
+let currentBtn = null;
 
-// 生成导航按钮
+function initVoices() {
+    voices = window.speechSynthesis.getVoices();
+}
+initVoices();
+window.speechSynthesis.onvoiceschanged = initVoices;
+
+function getBestVoice() {
+    if (!voices.length) voices = window.speechSynthesis.getVoices();
+    // 优先选美式英语 Siri 风格声音
+    const priority = [
+        v => v.lang === 'en-US' && /Samantha|Karen|Victoria|Siri/.test(v.name),
+        v => v.lang === 'en-US',
+        v => v.lang.startsWith('en'),
+    ];
+    for (const filter of priority) {
+        const found = voices.filter(filter);
+        if (found.length) return found[0];
+    }
+    return voices[0] || null;
+}
+
+function speak(text, btn) {
+    if (!text) return;
+
+    // 如果正在朗读同一个词，取消
+    if (currentUtterance && currentBtn === btn) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+        if (btn) btn.classList.remove('playing');
+        currentBtn = null;
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.85;
+    utterance.pitch = 1.0;
+
+    const voice = getBestVoice();
+    if (voice) utterance.voice = voice;
+
+    utterance.onstart = () => {
+        if (currentBtn && currentBtn !== btn) currentBtn.classList.remove('playing');
+        if (btn) btn.classList.add('playing');
+        currentBtn = btn;
+    };
+    utterance.onend = utterance.onerror = () => {
+        if (btn) btn.classList.remove('playing');
+        currentBtn = null;
+    };
+
+    currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+}
+
+// 生成导航
 const nav = document.getElementById('weekNav');
 weeks.forEach((w, i) => {
     const btn = document.createElement('button');
@@ -306,25 +321,6 @@ weeks.forEach((w, i) => {
     btn.onclick = () => showWeek(i);
     nav.appendChild(btn);
 });
-
-function speak(text) {
-    if (!text) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.85;
-    utterance.pitch = 1.0;
-    // 尝试找一个英文声音
-    const voices = window.speechSynthesis.getVoices();
-    const enVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
-    if (enVoice) utterance.voice = enVoice;
-    window.speechSynthesis.speak(utterance);
-}
-
-// 等待声音列表加载
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
 
 function showWeek(index) {
     document.querySelectorAll('.week-btn').forEach((b, i) => {
@@ -341,9 +337,13 @@ function renderAll() {
         const section = document.createElement('div');
         section.className = 'week-section' + (wi === 0 ? ' active' : '');
 
-        let tableRows = week.words.map(w => `
+        const tableRows = week.words.map(w => `
             <tr>
-                <td><span class="word" onclick="speak('${w.word}')">${w.word}</span></td>
+                <td>
+                    <button class="word-btn" onclick="speak('${w.word}', this)">
+                        <span class="icon">▶</span>${w.word}
+                    </button>
+                </td>
                 <td class="phonetic">${w.phonetic}</td>
                 <td class="meaning">${w.meaning}</td>
                 <td class="example">${w.example}</td>
@@ -355,7 +355,7 @@ function renderAll() {
             <table>
                 <thead>
                     <tr>
-                        <th>单词（点击朗读）</th>
+                        <th>单词（点击▶朗读）</th>
                         <th>音标</th>
                         <th>中文</th>
                         <th>例句</th>
@@ -369,6 +369,9 @@ function renderAll() {
 }
 
 renderAll();
+
+// iOS Safari: 用户首次触摸需要触发一次空操作才能解锁 TTS
+document.body.addEventListener('touchstart', () => {}, { once: true });
 </script>
 </body>
 </html>
