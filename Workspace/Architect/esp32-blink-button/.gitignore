@@ -1,0 +1,18 @@
+# Build output
+build/
+*.o
+*.a
+*.d
+
+# IDE
+.vscode/
+.idea/
+
+# ESP-IDF
+sdkconfig
+sdkconfig.old
+dependencies.lock
+
+# OS
+.DS_Store
+*.swp
